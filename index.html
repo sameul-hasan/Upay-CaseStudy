@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>upay Fintech Enterprise Strategy: Architecture, APIs & Ecosystem Integration</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            upay: {
+              navy: '#002B49',
+              blue: '#005A9C',
+              cyan: '#00A3E0',
+              accent: '#0284C7',
+              dark: '#0B1528',
+              surface: '#0F1E36',
+              border: '#1E3A5F'
+            },
+            bkash: '#E2136E',
+            nagad: '#F7941D',
+            rocket: '#8C3494'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    }
+    .code-block {
+      background: #090E17;
+      border: 1px solid #1A2638;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-cyan-500 selection:text-white">
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-50 glass-nav transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <a href="https://www.upaybd.com/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Upay_logo.svg" 
+               alt="upay Logo" 
+               class="h-8 w-auto object-contain"
+               onerror="this.src='https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Upay_logo.svg/250px-Upay_logo.svg.png';">
+          <div class="border-l border-slate-300 pl-3">
+            <span class="text-xs font-bold text-slate-800 tracking-tight block">Enterprise Integration Blueprint</span>
+            <span class="text-[10px] text-upay-blue font-semibold tracking-wide uppercase">UCB Fintech Technologies</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="hidden lg:flex items-center space-x-6 text-xs font-semibold text-slate-600">
+        <a href="#landscape" class="hover:text-upay-blue transition">Landscape Matrix</a>
+        <a href="#ecommerce" class="hover:text-upay-blue transition">E-Commerce & Checkout</a>
+        <a href="#api-suite" class="hover:text-upay-blue transition">API Architecture</a>
+        <a href="#pillars" class="hover:text-upay-blue transition">Vertical Rollouts</a>
+        <a href="#multiwallet" class="hover:text-upay-blue transition">Multi-Wallet Engine</a>
+        <a href="#simulator" class="hover:text-upay-blue transition">API Sandbox</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <a href="#ecommerce" class="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition">
+          <svg class="w-3.5 h-3.5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+          <span>Merchant SDKs</span>
+        </a>
+        <a href="https://www.upaybd.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 px-3.5 py-1.5 rounded-lg text-xs font-bold text-white bg-upay-blue hover:bg-upay-navy shadow-sm transition">
+          <span>Official Portal</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-[#00223A] via-[#003865] to-[#005A9C] text-white pt-16 pb-20 overflow-hidden">
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-semibold tracking-wide uppercase mb-6">
+          <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <span>Scalable MFS Ecosystem Strategy</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-6">
+          Modernizing <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-sky-200">upay</span> Through High-Velocity API & Vertical Ecosystem Integrations
+        </h1>
+        <p class="text-slate-300 text-base sm:text-lg leading-relaxed mb-8">
+          A definitive engineering and go-to-market blueprint for UCB Fintech. How to outmaneuver incumbent network effects by standardizing e-commerce checkouts, campus ERP connectors, mass-transit telemetry, and instant B2B liquidity settlement.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="#ecommerce" class="px-5 py-2.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs sm:text-sm shadow-md transition flex items-center space-x-2">
+            <svg class="w-4 h-4 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+            <span>E-Commerce Integration Guide</span>
+          </a>
+          <a href="#api-suite" class="px-5 py-2.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-white font-semibold text-xs sm:text-sm border border-slate-700 transition flex items-center space-x-2">
+            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            <span>Developer API Architecture</span>
+          </a>
+          <a href="#simulator" class="px-5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm border border-white/20 transition flex items-center space-x-2">
+            <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/></svg>
+            <span>Interactive Simulator</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Stats Strip -->
+      <div class="mt-14 pt-8 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div>
+          <div class="text-xs text-slate-400 uppercase font-semibold">Bangladesh Daily Volume</div>
+          <div class="text-2xl font-black text-white mt-1">৳6,000+ Crore</div>
+          <div class="text-[11px] text-cyan-300 mt-0.5">Rapidly compounding</div>
+        </div>
+        <div>
+          <div class="text-xs text-slate-400 uppercase font-semibold">Market Duopoly</div>
+          <div class="text-2xl font-black text-white mt-1">&gt; 85% Share</div>
+          <div class="text-[11px] text-amber-300 mt-0.5">bKash + Nagad consolidation</div>
+        </div>
+        <div>
+          <div class="text-xs text-slate-400 uppercase font-semibold">upay ATM Cash-Out</div>
+          <div class="text-2xl font-black text-emerald-400 mt-1">৳8 / 1,000</div>
+          <div class="text-[11px] text-slate-300 mt-0.5">UCB nationwide ATM booths</div>
+        </div>
+        <div>
+          <div class="text-xs text-slate-400 uppercase font-semibold">API Settlement Latency</div>
+          <div class="text-2xl font-black text-cyan-300 mt-1">&lt; 250 ms</div>
+          <div class="text-[11px] text-slate-300 mt-0.5">Target webhook roundtrip</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Competitive Landscape & Benchmarking -->
+  <section id="landscape" class="py-16 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+        <div>
+          <span class="text-xs font-bold text-upay-blue uppercase tracking-widest block mb-1">Ecosystem Audit</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">MFS Competitive Architecture Matrix</h2>
+        </div>
+        <p class="text-xs text-slate-500 mt-2 md:mt-0 max-w-md">
+          Comparing operational models, developer APIs, transaction economics, and liquidity distribution across Bangladesh.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white">
+        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+          <thead>
+            <tr class="bg-slate-900 text-white divide-x divide-slate-800">
+              <th class="p-4 font-semibold w-1/5">Capability / Metric</th>
+              <th class="p-4 font-semibold text-cyan-300 w-1/4">upay (UCB Fintech)</th>
+              <th class="p-4 font-semibold text-pink-400 w-1/5">bKash</th>
+              <th class="p-4 font-semibold text-amber-400 w-1/5">Nagad</th>
+              <th class="p-4 font-semibold text-purple-300 w-1/5">Rocket (DBBL)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-700">
+            <tr class="hover:bg-slate-50/80 transition">
+              <td class="p-4 font-bold text-slate-900 bg-slate-50/50">Merchant Online Checkout (MDR)</td>
+              <td class="p-4 bg-cyan-50/30 text-upay-blue font-bold">1.10% – 1.20% (Competitive incentive tier)</td>
+              <td class="p-4">1.50% – 1.85% (Industry baseline standard)</td>
+              <td class="p-4">1.20% – 1.50% (Variable merchant rate)</td>
+              <td class="p-4">1.50% (Legacy payment gateway fee)</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 transition">
+              <td class="p-4 font-bold text-slate-900 bg-slate-50/50">Developer API & Webhooks</td>
+              <td class="p-4 bg-cyan-50/30">RESTful JSON APIs, OAuth2, HMAC webhooks (Underutilized)</td>
+              <td class="p-4">Extensive Developer portal, sandbox, plugins</td>
+              <td class="p-4">Partner API integration portal</td>
+              <td class="p-4">Direct bank gateway & aggregator routing</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 transition">
+              <td class="p-4 font-bold text-slate-900 bg-slate-50/50">E-Commerce Ready Plugins</td>
+              <td class="p-4 bg-cyan-50/30 text-amber-700 font-semibold">Gaps in verified WooCommerce / Shopify catalog</td>
+              <td class="p-4 text-emerald-700 font-semibold">Native WooCommerce, Shopify, Magento, OpenCart</td>
+              <td class="p-4 text-emerald-700 font-semibold">WooCommerce, OpenCart, Custom PHP SDKs</td>
+              <td class="p-4">Aggregator plugins (SSLCommerz, Shurjopay)</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 transition">
+              <td class="p-4 font-bold text-slate-900 bg-slate-50/50">Agent Cash-Out Fee</td>
+              <td class="p-4 bg-cyan-50/30 font-semibold text-slate-900">1.40% (৳14 / ৳1,000) flat (USSD & App)</td>
+              <td class="p-4">1.49% (Priyo number) to 1.85% standard</td>
+              <td class="p-4">0.999% + VAT (App) / ~1.49% (USSD)</td>
+              <td class="p-4">1.80% (Standard agent counters)</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 transition">
+              <td class="p-4 font-bold text-slate-900 bg-slate-50/50">ATM Cash-Out Infrastructure</td>
+              <td class="p-4 bg-cyan-50/30 text-emerald-600 font-bold">৳8 per ৳1,000 (Nationwide UCB ATMs)</td>
+              <td class="p-4">৳14.90 per ৳1,000 (Select partner ATMs)</td>
+              <td class="p-4 text-slate-400">N/A (No ATM network)</td>
+              <td class="p-4 text-purple-700 font-semibold">৳9 per ৳1,000 (DBBL Fast-Track network)</td>
+            </tr>
+            <tr class="hover:bg-slate-50/80 transition">
+              <td class="p-4 font-bold text-slate-900 bg-slate-50/50">Wallet Segregation Moat</td>
+              <td class="p-4 bg-cyan-50/30 text-upay-blue font-bold">Patented 4-in-1 Multi-Wallet architecture</td>
+              <td class="p-4">Single fungible balance pool</td>
+              <td class="p-4">Single fungible balance pool</td>
+              <td class="p-4">Linked Core Banking Account balance</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- E-Commerce Integration & Merchant Acceleration Guide -->
+  <section id="ecommerce" class="py-16 bg-slate-100 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mb-12">
+        <span class="text-xs font-bold text-upay-blue uppercase tracking-widest block mb-1">Merchant Acquisition</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">E-Commerce Checkout & Platform Integration Guide</h2>
+        <p class="text-slate-600 text-sm mt-2">
+          E-commerce merchants adopt payment channels based on three metrics: <strong>conversion rate</strong>, <strong>integration speed</strong>, and <strong>settlement turnaround</strong>. Here is how upay can establish merchant leadership.
+        </p>
+      </div>
+
+      <!-- 3 Core E-Commerce Integration Models -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <!-- Model 1 -->
+        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:border-upay-cyan transition">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 text-upay-blue flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-2">1. In-App Embedded Checkout (iFrame / Popup)</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            Keeps the shopper on the merchant's domain. Reduces cart abandonment by opening an encrypted modal overlay for mobile number input and PIN verification.
+          </p>
+          <div class="bg-slate-50 rounded-lg p-3 text-[11px] text-slate-600 space-y-1">
+            <div class="flex justify-between font-medium"><span>Conversion Lift:</span> <strong class="text-emerald-600">+18% vs Redirects</strong></div>
+            <div class="flex justify-between font-medium"><span>Ideal For:</span> <span>Apparel, Electronics, Food Delivery</span></div>
+          </div>
+        </div>
+
+        <!-- Model 2 -->
+        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:border-upay-cyan transition">
+          <div class="w-10 h-10 rounded-lg bg-cyan-50 text-cyan-600 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-2">2. Dynamic Bangla QR for Desktop Web</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            When checking out on a PC or laptop, generates an interoperable Bangla QR code. The user scans it using their upay or any inter-bank MFS app to authorize payment in 5 seconds.
+          </p>
+          <div class="bg-slate-50 rounded-lg p-3 text-[11px] text-slate-600 space-y-1">
+            <div class="flex justify-between font-medium"><span>Interoperability:</span> <strong class="text-upay-blue">Universal Bangla QR</strong></div>
+            <div class="flex justify-between font-medium"><span>Eliminates:</span> <span>Manual OTP typing on desktop</span></div>
+          </div>
+        </div>
+
+        <!-- Model 3 -->
+        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:border-upay-cyan transition">
+          <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-2">3. Tokenized Recurring Billing (Auto-Pay)</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            One-time OTP authorization generates a cryptographically signed billing token. Enables 1-click repeat orders and automatic subscriptions for SaaS, tuition, and internet bills.
+          </p>
+          <div class="bg-slate-50 rounded-lg p-3 text-[11px] text-slate-600 space-y-1">
+            <div class="flex justify-between font-medium"><span>Use Cases:</span> <span>Broadband, OTT Subscriptions, EdTech</span></div>
+            <div class="flex justify-between font-medium"><span>Churn Reduction:</span> <strong class="text-emerald-600">-35% Failed Renewals</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ready-to-Install CMS & E-Commerce Plugins Blueprint -->
+      <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+        <div class="flex items-center space-x-3 mb-6 pb-4 border-b border-slate-200">
+          <div class="w-8 h-8 rounded-lg bg-upay-blue text-white flex items-center justify-center font-bold text-xs">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Official Plugin Deployment Strategy</h3>
+            <p class="text-xs text-slate-500">Accelerating merchant onboarding from 3 weeks to 15 minutes</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-slate-900">WooCommerce / WP</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-semibold">Priority 1</span>
+            </div>
+            <p class="text-[11px] text-slate-600 mb-3">Powers 65%+ of active Bangladeshi e-commerce merchants and F-commerce sites.</p>
+            <ul class="text-[10px] text-slate-500 space-y-1">
+              <li>• Auto-configured webhook listeners</li>
+              <li>• Instant order status synchronization</li>
+              <li>• One-click sandbox/live key toggle</li>
+            </ul>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-slate-900">Custom SDKs (JS / Python)</span>
+              <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[10px] font-semibold">Developers</span>
+            </div>
+            <p class="text-[11px] text-slate-600 mb-3">Lightweight NPM, PyPI, and Packagist client packages with typed responses.</p>
+            <ul class="text-[10px] text-slate-500 space-y-1">
+              <li>• npm i @upay/checkout-sdk</li>
+              <li>• Automated HMAC verification</li>
+              <li>• Built-in retry & backoff handlers</li>
+            </ul>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-slate-900">Next-Day Auto-Sweep</span>
+              <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800 text-[10px] font-semibold">Financial Hook</span>
+            </div>
+            <p class="text-[11px] text-slate-600 mb-3">Merchant funds automatically settle into UCB Current Accounts at T+0 or T+1 morning.</p>
+            <ul class="text-[10px] text-slate-500 space-y-1">
+              <li>• Zero fee UCB account transfer</li>
+              <li>• Working capital loan lines</li>
+              <li>• Real-time reconciliation reports</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Interactive Sandbox & Payment Simulator -->
+  <section id="simulator" class="py-16 bg-white border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <span class="text-xs font-bold text-upay-blue uppercase tracking-widest block mb-1">Developer Playground</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Live API Checkout & Webhook Sandbox</h2>
+        <p class="text-slate-600 text-xs sm:text-sm mt-2">
+          Test real-time payment initiation, mock user authorization, and observe the resulting HMAC webhook response.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Interactive Controls -->
+        <div class="lg:col-span-5 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+          <h3 class="text-sm font-bold text-slate-900 mb-4 flex items-center space-x-2">
+            <svg class="w-4 h-4 text-upay-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+            <span>Initiate Mock Payment Session</span>
+          </h3>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="block text-slate-600 font-semibold mb-1">Order Invoice ID</label>
+              <input type="text" id="simOrderId" value="UPAY-ORD-7741" class="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white font-mono text-slate-800">
+            </div>
+            <div>
+              <label class="block text-slate-600 font-semibold mb-1">Amount (BDT)</label>
+              <input type="number" id="simAmount" value="3250" class="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white font-mono text-slate-800">
+            </div>
+            <div>
+              <label class="block text-slate-600 font-semibold mb-1">Vertical Integration Channel</label>
+              <select id="simChannel" class="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-800">
+                <option value="ecommerce">E-Commerce Merchant Checkout</option>
+                <option value="campus">University Semester Fee (Smart Campus)</option>
+                <option value="transit">Dhaka Metro Rail Rapid Pass NFC Top-Up</option>
+                <option value="utility">BREB Palli Bidyut Bill Auto-Clearance</option>
+              </select>
+            </div>
+
+            <div class="pt-3">
+              <button onclick="runSimulation()" id="simBtn" class="w-full py-2.5 rounded-lg bg-upay-blue hover:bg-upay-navy text-white font-bold text-xs shadow transition flex items-center justify-center space-x-2">
+                <svg class="w-4 h-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/></svg>
+                <span>Execute Payment Simulation</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terminal Output Window -->
+        <div class="lg:col-span-7 code-block rounded-2xl p-5 border border-slate-800 text-xs font-mono">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3 text-[11px] text-slate-400">
+            <span class="flex items-center space-x-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Gateway Dispatch Log</span>
+            </span>
+            <span id="simStatus" class="text-slate-500">Ready for execution</span>
+          </div>
+
+          <pre id="simOutput" class="text-slate-300 h-64 overflow-y-auto custom-scrollbar whitespace-pre-wrap leading-relaxed">
+// Click "Execute Payment Simulation" to run test transaction.
+// The engine will trace:
+// 1. Session initialization
+// 2. Dynamic payment token generation
+// 3. Simulated user authorization
+// 4. Asynchronous HMAC-SHA256 merchant webhook dispatch
+          </pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vertical Rollouts & Ecosystem Architecture -->
+  <section id="pillars" class="py-16 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-bold text-upay-blue uppercase tracking-widest block mb-1">Sector Playbooks</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Vertical Ecosystem Integration Roadmaps</h2>
+        <p class="text-slate-600 text-sm mt-2">
+          Defensible closed-loop moats where transaction habits are established through daily routines rather than marketing subsidies.
+        </p>
+      </div>
+
+      <!-- Category Tabs -->
+      <div class="flex flex-wrap justify-center gap-2 mb-8">
+        <button onclick="showPillar('transport')" id="tab-transport" class="pillar-tab px-4 py-2 rounded-lg text-xs font-bold bg-upay-blue text-white shadow transition flex items-center space-x-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+          <span>Transport & Smart Transit</span>
+        </button>
+        <button onclick="showPillar('education')" id="tab-education" class="pillar-tab px-4 py-2 rounded-lg text-xs font-semibold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition flex items-center space-x-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+          <span>Education & Smart Campus</span>
+        </button>
+        <button onclick="showPillar('fees')" id="tab-fees" class="pillar-tab px-4 py-2 rounded-lg text-xs font-semibold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition flex items-center space-x-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          <span>Institutional & Municipal Fees</span>
+        </button>
+        <button onclick="showPillar('benefits')" id="tab-benefits" class="pillar-tab px-4 py-2 rounded-lg text-xs font-semibold bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 transition flex items-center space-x-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+          <span>Multi-Wallet & Banking VAS</span>
+        </button>
+      </div>
+
+      <!-- Detail Card Container -->
+      <div class="bg-white rounded-2xl p-6 sm:p-10 border border-slate-200 shadow-sm min-h-[380px]">
+        
+        <!-- Transport View -->
+        <div id="pillar-transport" class="pillar-pane">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7">
+              <span class="px-2.5 py-1 rounded bg-cyan-100 text-cyan-800 font-bold text-[11px] uppercase tracking-wider block w-max mb-3">
+                Transit Architecture
+              </span>
+              <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-3">Automating High-Density Commuter Flows</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
+                Transit delivers recurring velocity. By embedding in contactless NFC top-ups, highway toll plazas, and waterway launch ticketing, upay secures non-discretionary daily volume.
+              </p>
+              <div class="space-y-3.5 text-xs text-slate-700">
+                <div class="flex items-start space-x-3">
+                  <div class="w-5 h-5 rounded-full bg-cyan-100 text-cyan-800 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  </div>
+                  <div>
+                    <strong class="text-slate-900 block">Dhaka Metro Rail Rapid Pass NFC Top-Up</strong>
+                    <span>Utilize phone NFC hardware directly within the upay app to write balance onto physical MRT / Rapid Pass cards without queueing at station TVMs.</span>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <div class="w-5 h-5 rounded-full bg-cyan-100 text-cyan-800 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  </div>
+                  <div>
+                    <strong class="text-slate-900 block">Southern Waterways & Launch Ticketing</strong>
+                    <span>Deploy ruggedized offline-capable mPOS and dynamic Bangla QR at Sadarghat, Barisal, Bhola, and Patuakhali ghats to capture high-value cabin fares.</span>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <div class="w-5 h-5 rounded-full bg-cyan-100 text-cyan-800 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  </div>
+                  <div>
+                    <strong class="text-slate-900 block">Electronic Toll Collection (ETC) Windshield RFID</strong>
+                    <span>Direct wallet link for electronic toll tags across Padma Bridge, Bangabandhu Bridge, and Dhaka Elevated Expressway for commercial fleet logistics.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="lg:col-span-5 bg-slate-900 text-white rounded-xl p-6 border border-slate-800 text-xs">
+              <span class="text-cyan-400 font-bold uppercase tracking-wider block mb-3">Transit Deployment Specs</span>
+              <div class="space-y-3">
+                <div class="border-b border-slate-800 pb-2">
+                  <span class="text-slate-400 block text-[11px]">Hardware Protocol:</span>
+                  <span class="text-slate-100 font-mono">ISO/IEC 14443 Type A (NFC Card Read/Write)</span>
+                </div>
+                <div class="border-b border-slate-800 pb-2">
+                  <span class="text-slate-400 block text-[11px]">Key Partner Nodes:</span>
+                  <span class="text-slate-100 font-semibold">DMTCL, BIWTA, Roads & Highways Department</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 block text-[11px]">Target Transaction Volume:</span>
+                  <span class="text-emerald-400 font-mono font-bold">150,000+ daily commuter authorizations</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education View -->
+        <div id="pillar-education" class="pillar-pane hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7">
+              <span class="px-2.5 py-1 rounded bg-blue-100 text-blue-800 font-bold text-[11px] uppercase tracking-wider block w-max mb-3">
+                Youth Lifetime Value (LTV)
+              </span>
+              <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-3">Campus ERP & Smart Student ID Ecosystems</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
+                Universities and schools offer locked-in, recurring semester fee payments. Turning student IDs into UCB-upay cards guarantees early wallet adoption among young professionals.
+              </p>
+              <div class="space-y-3.5 text-xs text-slate-700">
+                <div class="flex items-start space-x-3">
+                  <div class="w-5 h-5 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  </div>
+                  <div>
+                    <strong class="text-slate-900 block">Public Cluster Admission Portals</strong>
+                    <span>Secure processing rights for GST Cluster, Agricultural Cluster, and National University admissions, collecting 600,000+ student applications each year.</span>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <div class="w-5 h-5 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  </div>
+                  <div>
+                    <strong class="text-slate-900 block">Turnkey ERP Webhook Connectors</strong>
+                    <span>Pre-built integration plugins for Edumarc, ClassTune, and Campus360 so tuition dues reflect automatically inside the student's upay app.</span>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <div class="w-5 h-5 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  </div>
+                  <div>
+                    <strong class="text-slate-900 block">Co-Branded Smart Campus Cards</strong>
+                    <span>RFID cards providing turnstile gate access, library checkout, and canteen micro-purchases, backed by UCB-upay prepaid accounts.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="lg:col-span-5 bg-slate-900 text-white rounded-xl p-6 border border-slate-800 text-xs">
+              <span class="text-cyan-400 font-bold uppercase tracking-wider block mb-3">Campus Target Roadmap</span>
+              <div class="space-y-3">
+                <div class="border-b border-slate-800 pb-2">
+                  <span class="text-slate-400 block text-[11px]">Current Partners:</span>
+                  <span class="text-slate-100 font-semibold">UCSI University, UIU, Southeast University</span>
+                </div>
+                <div class="border-b border-slate-800 pb-2">
+                  <span class="text-slate-400 block text-[11px]">Next-Stage Expansion:</span>
+                  <span class="text-slate-100 font-semibold">50+ Tier-1 Private & Public University Campuses</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 block text-[11px]">Financial Retention Hook:</span>
+                  <span class="text-emerald-400 font-semibold">Disbursement wallet stipend routing with zero P2P fees</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Institutional Fees View -->
+        <div id="pillar-fees" class="pillar-pane hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7">
+              <span class="px-2.5 py-1 rounded bg-amber-100 text-amber-800 font-bold text-[11px] uppercase tracking-wider block w-max mb-3">
+                Citizen E-Governance
+              </span>
+              <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-3">Utility Invoicing & Municipal Expansion</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
+                Institutional billers establish monthly retention. Moving from web redirects to native in-app auto-fetching ensures users keep balance in their upay wallets.
+              </p>
+              <div class="space-y-3.5 text-xs text-slate-700">
+                <div class="flex items-start space-x-3">
+                  <div class="w-5 h-5 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  </div>
+                  <div>
+                    <strong class="text-slate-900 block">BREB (Palli Bidyut) Auto-Bill Fetching</strong>
+                    <span>Integrate with 80+ Palli Bidyut Samities serving 35M+ rural meters with automated SMS token retrieval and bill expiry alerts.</span>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <div class="w-5 h-5 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  </div>
+                  <div>
+                    <strong class="text-slate-900 block">Instant Digital Dakhila for Land Tax (e-Mutation)</strong>
+                    <span>Issue legally certified digital tax clearance tokens upon payment via Ministry of Land APIs without requiring visits to Upazila land offices.</span>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <div class="w-5 h-5 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  </div>
+                  <div>
+                    <strong class="text-slate-900 block">Divisional Pourashava & Holding Taxes</strong>
+                    <span>Expand beyond Dhaka North (DNCC) to Dhaka South (DSCC), Chittagong (CCC), Rajshahi, Khulna, and Barisal City Corporations.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="lg:col-span-5 bg-slate-900 text-white rounded-xl p-6 border border-slate-800 text-xs">
+              <span class="text-cyan-400 font-bold uppercase tracking-wider block mb-3">Institutional Infrastructure</span>
+              <div class="space-y-3">
+                <div class="border-b border-slate-800 pb-2">
+                  <span class="text-slate-400 block text-[11px]">Primary Invoicing Aggregator:</span>
+                  <span class="text-slate-100 font-mono">Ekpay (a2i) API Gateway Interconnect</span>
+                </div>
+                <div class="border-b border-slate-800 pb-2">
+                  <span class="text-slate-400 block text-[11px]">Govt Challan Clearing:</span>
+                  <span class="text-slate-100 font-semibold">e-Challan Synchronous RTGS Settlement</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 block text-[11px]">Monthly Active Retention Impact:</span>
+                  <span class="text-emerald-400 font-mono font-bold">+40% Recurring Wallet Funding</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Benefits & Multi-Wallet View -->
+        <div id="pillar-benefits" class="pillar-pane hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7">
+              <span class="px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 font-bold text-[11px] uppercase tracking-wider block w-max mb-3">
+                Banking Synergies
+              </span>
+              <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-3">Micro-DPS & Corporate Value-Chain Integration</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
+                Harnessing UCB PLC's commercial balance sheet and Shariah banking wing (UCB Taqwa) to deliver higher-margin wealth management and micro-credit tools.
+              </p>
+              <div class="space-y-3.5 text-xs text-slate-700">
+                <div class="flex items-start space-x-3">
+                  <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  </div>
+                  <div>
+                    <strong class="text-slate-900 block">Micro-DPS with UCB Taqwa Islamic Banking</strong>
+                    <span>Daily and monthly Shariah-compliant micro-savings starting at ৳200/month with zero penalty charges for gig and informal workers.</span>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  </div>
+                  <div>
+                    <strong class="text-slate-900 block">Virtual Dual-Currency UCB-upay Prepaid Cards</strong>
+                    <span>Instant in-app virtual card creation for international SaaS, freelance tool licenses, IELTS exam booking, and digital ad payments.</span>
+                  </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                  <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold shrink-0 mt-0.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  </div>
+                  <div>
+                    <strong class="text-slate-900 block">Payoneer Freelancer Tax Certificates</strong>
+                    <span>Automate export remittance verification certificates for tech freelancers cashing out at the special 1% tariff, saving hours during income tax filing.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="lg:col-span-5 bg-slate-900 text-white rounded-xl p-6 border border-slate-800 text-xs">
+              <span class="text-cyan-400 font-bold uppercase tracking-wider block mb-3">Value-Added Monetization</span>
+              <div class="space-y-3">
+                <div class="border-b border-slate-800 pb-2">
+                  <span class="text-slate-400 block text-[11px]">Algorithmic Credit Lines:</span>
+                  <span class="text-slate-100 font-mono">Nano-loans from ৳2,000 to ৳30,000 via UCB</span>
+                </div>
+                <div class="border-b border-slate-800 pb-2">
+                  <span class="text-slate-400 block text-[11px]">Corporate Payroll Footprint:</span>
+                  <span class="text-slate-100 font-semibold">PRAN-RFL, Fashol.com, Agrani Distribution</span>
+                </div>
+                <div>
+                  <span class="text-slate-400 block text-[11px]">Treasury Optimization:</span>
+                  <span class="text-emerald-400 font-semibold">Capturing unspent float within parent bank</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Multi-Wallet Architecture Deep Dive -->
+  <section id="multiwallet" class="py-16 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-bold text-upay-blue uppercase tracking-widest block mb-1">Proprietary Technology</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">4-in-1 Multi-Wallet Segregation Engine</h2>
+        <p class="text-slate-600 text-sm mt-2">
+          Unlike competitors that pool all customer money into a single bucket, upay dynamically partitions balances by origin to provide purpose-bound corporate disbursements and tax-friendly payouts.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div onclick="pickWallet('primary')" id="w-btn-primary" class="wallet-tab p-5 rounded-xl border-2 border-upay-cyan bg-cyan-50/40 text-center cursor-pointer transition">
+          <div class="w-8 h-8 rounded-lg bg-upay-blue text-white flex items-center justify-center mx-auto mb-2 font-bold">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+          </div>
+          <h4 class="text-sm font-bold text-slate-900">Primary Wallet</h4>
+          <span class="text-[11px] text-slate-500 block mt-0.5">P2P & Retail Merchant Spend</span>
+        </div>
+
+        <div onclick="pickWallet('salary')" id="w-btn-salary" class="wallet-tab p-5 rounded-xl border border-slate-200 bg-slate-50 text-center cursor-pointer hover:bg-slate-100 transition">
+          <div class="w-8 h-8 rounded-lg bg-slate-700 text-white flex items-center justify-center mx-auto mb-2 font-bold">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <h4 class="text-sm font-bold text-slate-900">Salary Wallet</h4>
+          <span class="text-[11px] text-slate-500 block mt-0.5">Corporate & RMG Payrolls</span>
+        </div>
+
+        <div onclick="pickWallet('remittance')" id="w-btn-remittance" class="wallet-tab p-5 rounded-xl border border-slate-200 bg-slate-50 text-center cursor-pointer hover:bg-slate-100 transition">
+          <div class="w-8 h-8 rounded-lg bg-slate-700 text-white flex items-center justify-center mx-auto mb-2 font-bold">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h4 class="text-sm font-bold text-slate-900">Remittance Wallet</h4>
+          <span class="text-[11px] text-slate-500 block mt-0.5">Expatriates & Freelancer Income</span>
+        </div>
+
+        <div onclick="pickWallet('disbursement')" id="w-btn-disbursement" class="wallet-tab p-5 rounded-xl border border-slate-200 bg-slate-50 text-center cursor-pointer hover:bg-slate-100 transition">
+          <div class="w-8 h-8 rounded-lg bg-slate-700 text-white flex items-center justify-center mx-auto mb-2 font-bold">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
+          </div>
+          <h4 class="text-sm font-bold text-slate-900">Disbursement Wallet</h4>
+          <span class="text-[11px] text-slate-500 block mt-0.5">Govt Aid, Grants & Scholarships</span>
+        </div>
+      </div>
+
+      <!-- Detail Showcase -->
+      <div class="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-4 mb-6">
+          <div>
+            <span class="text-xs font-bold text-cyan-400 uppercase tracking-widest block" id="wDisplayBadge">Bucket Profile</span>
+            <h3 class="text-xl font-bold text-white mt-1" id="wDisplayTitle">Primary Wallet Configuration</h3>
+          </div>
+          <span class="mt-3 sm:mt-0 px-3.5 py-1 rounded-full text-xs font-mono font-bold bg-cyan-900/60 text-cyan-300 border border-cyan-700" id="wDisplayTariff">
+            Cash-out: 1.4% flat
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs leading-relaxed">
+          <div>
+            <span class="text-slate-400 font-bold block mb-1">Incoming Capital Rails:</span>
+            <p class="text-slate-200" id="wDisplayInflow">Agent Cash-In points, direct bank transfers via NPSB / BEFTN, Binimoy wallet-to-wallet routing, Visa & Mastercard Add Money.</p>
+          </div>
+          <div>
+            <span class="text-slate-400 font-bold block mb-1">Authorized Outflows:</span>
+            <p class="text-slate-200" id="wDisplayOutflow">Full fungibility across P2P Send Money, Mobile Recharge, offline Bangla QR merchants, and e-commerce checkouts.</p>
+          </div>
+          <div>
+            <span class="text-slate-400 font-bold block mb-1">Strategic Enterprise Benefit:</span>
+            <p class="text-slate-200" id="wDisplayBenefit">Provides lowest standard USSD cash-out charge in the market (৳14/1,000) with ৳8/1,000 rate at UCB ATMs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Strategic Roadmap -->
+  <section id="roadmap" class="py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-bold text-upay-blue uppercase tracking-widest block mb-1">Execution Roadmap</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Three-Phase Enterprise Rollout</h2>
+        <p class="text-slate-600 text-sm mt-2">
+          A disciplined capital-efficient sequence: establish institutional billing, lock in captive transit/campus corridors, then scale developer APIs.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Phase 1 -->
+        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm relative">
+          <div class="w-8 h-8 rounded-lg bg-cyan-100 text-upay-blue font-mono font-bold text-xs flex items-center justify-center mb-4">
+            01
+          </div>
+          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Months 1 – 4</span>
+          <h3 class="text-base font-bold text-slate-900 mb-2">Merchant & Utility Foundations</h3>
+          <ul class="text-xs text-slate-600 space-y-2">
+            <li class="flex items-start"><span class="text-cyan-500 mr-2 font-bold">•</span>Launch official verified WooCommerce & Shopify payment plugins.</li>
+            <li class="flex items-start"><span class="text-cyan-500 mr-2 font-bold">•</span>Deploy 30,000 interoperable Bangla QR stands across tier-1 retail merchants.</li>
+            <li class="flex items-start"><span class="text-cyan-500 mr-2 font-bold">•</span>Automate BREB (Palli Bidyut) in-app auto-bill fetch & SMS reminders.</li>
+          </ul>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="bg-white rounded-xl p-6 border-2 border-upay-blue shadow-md relative">
+          <div class="w-8 h-8 rounded-lg bg-upay-blue text-white font-mono font-bold text-xs flex items-center justify-center mb-4">
+            02
+          </div>
+          <span class="text-[11px] font-bold text-upay-blue uppercase tracking-wider block">Months 5 – 8</span>
+          <h3 class="text-base font-bold text-slate-900 mb-2">Closed-Loop Mobility & Campuses</h3>
+          <ul class="text-xs text-slate-600 space-y-2">
+            <li class="flex items-start"><span class="text-upay-blue mr-2 font-bold">•</span>Deploy Rapid Pass / MRT Pass NFC card write module inside mobile app.</li>
+            <li class="flex items-start"><span class="text-upay-blue mr-2 font-bold">•</span>Roll out smart campus ERP webhooks to 25 leading university portals.</li>
+            <li class="flex items-start"><span class="text-upay-blue mr-2 font-bold">•</span>Onboard southern launch fleets (Barisal/Sadarghat) with mPOS terminals.</li>
+          </ul>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm relative">
+          <div class="w-8 h-8 rounded-lg bg-slate-900 text-white font-mono font-bold text-xs flex items-center justify-center mb-4">
+            03
+          </div>
+          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Months 9 – 12+</span>
+          <h3 class="text-base font-bold text-slate-900 mb-2">Enterprise Credit & B2B Settlement</h3>
+          <ul class="text-xs text-slate-600 space-y-2">
+            <li class="flex items-start"><span class="text-slate-900 mr-2 font-bold">•</span>Launch algorithmic nano-credit & micro-DPS with UCB Taqwa Islamic Banking.</li>
+            <li class="flex items-start"><span class="text-slate-900 mr-2 font-bold">•</span>Integrate B2B FMCG distributor payment collections with ERP synchronization.</li>
+            <li class="flex items-start"><span class="text-slate-900 mr-2 font-bold">•</span>Commercialize self-serve Developer Portal with automatic sandbox provisioning.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-900 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-900">
+        <div class="flex items-center space-x-3">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Upay_logo.svg" 
+               alt="upay" 
+               class="h-6 w-auto brightness-200 invert"
+               onerror="this.src='https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Upay_logo.svg/250px-Upay_logo.svg.png';">
+          <span class="text-slate-600">|</span>
+          <span class="text-slate-300 font-semibold">Enterprise Strategy & Integration Blueprint</span>
+        </div>
+        <div class="flex flex-wrap gap-5">
+          <a href="https://www.upaybd.com/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition">Official Website</a>
+          <a href="https://www.upaybd.com/limits-and-charges" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition">Limits & Tariffs</a>
+          <a href="https://www.bb.org.bd/en/index.php/financialactivity/mfsdata" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition">Bangladesh Bank Statistics</a>
+          <a href="https://ekpay.gov.bd/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition">Ekpay Portal</a>
+        </div>
+      </div>
+      <div class="pt-8 text-center text-slate-500">
+        <p>Prepared for technical evaluation and strategic review of Mobile Financial Services in Bangladesh. All trademarks, service marks, and brand assets belong to their respective corporate parent institutions.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script Logic -->
+  <script>
+    // Code Snippets
+    const snippets = {
+      curl: `# 1. Create Payment Session
+curl -X POST https://api.upaybd.com/v2/checkout/initiate \
+  -H "Authorization: Bearer jwt_sec_token_9918" \
+  -H "X-Upay-Signature: e3b0c44298fc1c149afbf4c8996fb92427ae41" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "merchant_id": "UPAY_MERCHANT_88129",
+    "order_id": "INV-2026-9081",
+    "amount": "1450.00",
+    "currency": "BDT",
+    "target_wallet": "primary",
+    "callback_url": "https://mystore.com.bd/checkout/complete",
+    "webhook_url": "https://mystore.com.bd/api/webhooks/upay",
+    "customer": {
+      "name": "Tanvir Ahmed",
+      "mobile": "018XXXXXXXX",
+      "email": "tanvir@example.com"
+    }
+  }'`,
+      node: `// Node.js (Express / Fastify) Integration
+const axios = require('axios');
+const crypto = require('crypto');
+
+async function createUpaySession(order) {
+  const secretKey = process.env.UPAY_SECRET_KEY;
+  const payload = {
+    merchant_id: process.env.UPAY_MERCHANT_ID,
+    order_id: order.id,
+    amount: order.totalAmount.toFixed(2),
+    currency: 'BDT',
+    callback_url: 'https://mystore.com.bd/payment/callback',
+    webhook_url: 'https://mystore.com.bd/api/webhooks/upay'
+  };
+
+  const signature = crypto
+    .createHmac('sha256', secretKey)
+    .update(JSON.stringify(payload))
+    .digest('hex');
+
+  const response = await axios.post(
+    'https://api.upaybd.com/v2/checkout/initiate',
+    payload,
+    {
+      headers: {
+        'Authorization': \`Bearer \${process.env.UPAY_JWT_TOKEN}\`,
+        'X-Upay-Signature': signature
+      }
+    }
+  );
+
+  return response.data; // contains payment_url & session_id
+}`,
+      php: `<?php
+// WooCommerce upay Payment Gateway Handler
+class WC_Gateway_Upay extends WC_Payment_Gateway {
+  public function __construct() {
+    $this->id = 'upay';
+    $this->method_title = 'upay Mobile Financial Services';
+    $this->has_fields = false;
+    $this->init_form_fields();
+    $this->init_settings();
+  }
+
+  public function process_payment($order_id) {
+    $order = wc_get_order($order_id);
+    $payload = [
+      'merchant_id' => $this->get_option('merchant_id'),
+      'order_id'    => (string)$order->get_id(),
+      'amount'      => number_format($order->get_total(), 2, '.', ''),
+      'currency'    => 'BDT',
+      'callback_url'=> $this->get_return_url($order),
+      'webhook_url' => WC()->api_request_url('WC_Gateway_Upay')
+    ];
+
+    $response = wp_remote_post('https://api.upaybd.com/v2/checkout/initiate', [
+      'body'    => json_encode($payload),
+      'headers' => [
+        'Content-Type'  => 'application/json',
+        'Authorization' => 'Bearer ' . $this->get_option('api_token')
+      ]
+    ]);
+
+    $body = json_decode(wp_remote_retrieve_body($response), true);
+    if (!empty($body['payment_url'])) {
+      return ['result' => 'success', 'redirect' => $body['payment_url']];
+    }
+  }
+}`
+    };
+
+    function setSnippet(lang) {
+      document.getElementById('codeDisplay').querySelector('code').textContent = snippets[lang];
+      document.querySelectorAll('.snippet-btn').forEach(b => {
+        b.classList.remove('bg-cyan-500', 'text-slate-950', 'font-bold');
+        b.classList.add('bg-slate-800', 'text-slate-400', 'font-medium');
+      });
+      const activeBtn = document.getElementById('btn-snippet-' + lang);
+      activeBtn.classList.add('bg-cyan-500', 'text-slate-950', 'font-bold');
+      activeBtn.classList.remove('bg-slate-800', 'text-slate-400');
+    }
+
+    // Sandbox Simulator Execution
+    function runSimulation() {
+      const orderId = document.getElementById('simOrderId').value || 'UPAY-ORD-1001';
+      const amount = document.getElementById('simAmount').value || '1000';
+      const channel = document.getElementById('simChannel').value;
+      const simOutput = document.getElementById('simOutput');
+      const simStatus = document.getElementById('simStatus');
+
+      simStatus.textContent = 'Processing session...';
+      simStatus.className = 'text-amber-400 font-bold';
+      simOutput.textContent = `[${new Date().toISOString()}] [INIT] Sending HTTP POST to https://api.upaybd.com/v2/checkout/initiate...
+`;
+
+      setTimeout(() => {
+        simOutput.textContent += `[${new Date().toISOString()}] [200 OK] Session Created: session_token_889a7f34c219
+`;
+        simOutput.textContent += `[${new Date().toISOString()}] [ROUTING] Channel Target: ${channel.toUpperCase()} | Amount: ৳${parseFloat(amount).toLocaleString('en-IN')}
+`;
+        simOutput.textContent += `[${new Date().toISOString()}] [USER_AUTH] Simulating customer OTP authorization via *268# or biometric app...
+`;
+      }, 600);
+
+      setTimeout(() => {
+        simOutput.textContent += `[${new Date().toISOString()}] [PAYMENT_SETTLED] Transaction ID: TRX_${Math.floor(Math.random()*9000000+1000000)}
+`;
+        simOutput.textContent += `[${new Date().toISOString()}] [WEBHOOK_DISPATCH] Sending HMAC payload to merchant endpoint:
+`;
+        simOutput.textContent += JSON.stringify({
+          event: "payment.settled",
+          timestamp: new Date().toISOString(),
+          data: {
+            order_id: orderId,
+            amount: parseFloat(amount).toFixed(2),
+            currency: "BDT",
+            channel: channel,
+            customer_msisdn: "01828XXXXXX",
+            transaction_id: `TRX_${Math.floor(Math.random()*9000000+1000000)}`,
+            status: "COMPLETED",
+            reconciliation_code: "RC_UCB_09821"
+          },
+          signature: "a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e"
+        }, null, 2);
+
+        simStatus.textContent = 'Settled & Verified';
+        simStatus.className = 'text-emerald-400 font-bold';
+      }, 1400);
+    }
+
+    // Sector Pillars Switching
+    function showPillar(id) {
+      document.querySelectorAll('.pillar-pane').forEach(el => el.classList.add('hidden'));
+      document.getElementById('pillar-' + id).classList.remove('hidden');
+
+      document.querySelectorAll('.pillar-tab').forEach(b => {
+        b.classList.remove('bg-upay-blue', 'text-white', 'shadow');
+        b.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+      });
+
+      const activeTab = document.getElementById('tab-' + id);
+      activeTab.classList.add('bg-upay-blue', 'text-white', 'shadow');
+      activeTab.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+    }
+
+    // Multi-Wallet Details
+    const walletConfig = {
+      primary: {
+        badge: "Bucket Profile: General Consumer",
+        title: "Primary Wallet Configuration",
+        tariff: "Cash-out: 1.4% flat",
+        inflow: "Agent Cash-In points, direct bank transfers via NPSB / BEFTN, Binimoy wallet-to-wallet routing, Visa & Mastercard Add Money.",
+        outflow: "Full fungibility across P2P Send Money, Mobile Recharge, offline Bangla QR merchants, and e-commerce checkouts.",
+        benefit: "Provides lowest standard USSD cash-out charge in the market (৳14/1,000) with ৳8/1,000 rate at UCB ATMs."
+      },
+      salary: {
+        badge: "Bucket Profile: Corporate & RMG Workforce",
+        title: "Salary Wallet Configuration",
+        tariff: "Subsidized Cash-out: ৳8 - ৳10 / 1k",
+        inflow: "Automated batch disbursements from corporate ERPs, RMG payrolls, and institutional enterprise accounts.",
+        outflow: "Free P2P transfers to family members, discounted utility bill payments, and zero-fee merchant purchasing.",
+        benefit: "Employers guarantee employees retain more take-home wages by avoiding standard 1.85% cash-out fees."
+      },
+      remittance: {
+        badge: "Bucket Profile: Expatriates & IT Freelancers",
+        title: "Remittance Wallet Configuration",
+        tariff: "Govt 2.5% Incentive + 1% Payoneer",
+        inflow: "Direct inward cross-border exchange houses, Western Union, and Payoneer freelance USD/EUR withdrawals.",
+        outflow: "Auto-credited with Bangladesh Bank 2.5% incentive; instant liquidation via UCB ATMs or POS purchases.",
+        benefit: "Dedicated income certificates for tech freelancers to simplify proof of foreign exchange tax exemptions."
+      },
+      disbursement: {
+        badge: "Bucket Profile: Social Safety Net & Students",
+        title: "Disbursement Wallet Configuration",
+        tariff: "Zero-Charge or Subsidized Cashout",
+        inflow: "Government stipends, Ministry education allowances, university merit waivers, and disaster relief aid.",
+        outflow: "Earmarked strictly for tuition, medicine, and food essentials; blocks unapproved commercial gambling/cash misuse.",
+        benefit: "Complete audit traceability for donor organizations and universities with zero leakages."
+      }
+    };
+
+    function pickWallet(key) {
+      const data = walletConfig[key];
+      document.getElementById('wDisplayBadge').textContent = data.badge;
+      document.getElementById('wDisplayTitle').textContent = data.title;
+      document.getElementById('wDisplayTariff').textContent = data.tariff;
+      document.getElementById('wDisplayInflow').textContent = data.inflow;
+      document.getElementById('wDisplayOutflow').textContent = data.outflow;
+      document.getElementById('wDisplayBenefit').textContent = data.benefit;
+
+      document.querySelectorAll('.wallet-tab').forEach(el => {
+        el.classList.remove('border-2', 'border-upay-cyan', 'bg-cyan-50/40');
+        el.classList.add('border', 'border-slate-200', 'bg-slate-50');
+      });
+
+      const activeTab = document.getElementById('w-btn-' + key);
+      activeTab.classList.add('border-2', 'border-upay-cyan', 'bg-cyan-50/40');
+      activeTab.classList.remove('border', 'border-slate-200', 'bg-slate-50');
+    }
+  </script>
+</body>
+</html>
+
